@@ -4,10 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Getter
@@ -28,4 +25,10 @@ public class ItemPedido {
     private BigDecimal precoProduto;
 
     private Integer quantidade;
+
+    @ManyToOne
+    private Pedido pedido;
+
+    @ManyToOne
+    private Produto produto;
 }
