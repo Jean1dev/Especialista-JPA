@@ -1,5 +1,7 @@
 package com.curso.model;
 
+import com.curso.listener.GenericoListener;
+import com.curso.listener.GerarNotaFiscalListener;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EntityListeners({ GerarNotaFiscalListener.class, GenericoListener.class })
 @Entity
 public class Pedido {
 
@@ -44,4 +47,43 @@ public class Pedido {
 
     @OneToOne(mappedBy = "pedido")
     private PagamentoCartao pagamentoCartao;
+
+    @PrePersist
+    public void aoPersistir() {
+        System.out.println("Antes de persisitr");
+    }
+
+    @PreUpdate
+    public void aoAtualizar() {
+        System.out.println("Antes de atualizar");
+    }
+
+    @PostPersist
+    public void aposPersistir() {
+        System.out.println("Após persistir Pedido.");
+    }
+
+    @PostUpdate
+    public void aposAtualizar() {
+        System.out.println("Após atualizar Pedido.");
+    }
+
+    @PreRemove
+    public void aoRemover() {
+        System.out.println("Antes de remover Pedido.");
+    }
+
+    @PostRemove
+    public void aposRemover() {
+        System.out.println("Após remover Pedido.");
+    }
+
+    @PostLoad
+    public void aoCarregar() {
+        System.out.println("Após carregar o Pedido.");
+    }
+
+    public boolean isPago() {
+        return StatusPedido.PAGO.equals(status);
+    }
 }
