@@ -1,10 +1,29 @@
-import com.curso.model.Produto;
+import com.curso.model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class OperacoesComTransacaoTest extends EntityManagerTest {
+
+    @Test
+    public void salvarCliente() {
+        Cliente cliente = new Cliente();
+        cliente.setNome("Carlos Finotti");
+        cliente.setSexo(SexoCliente.MASCULINO);
+        cliente.setDataNascimento(LocalDate.of(1990, 1, 1));
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(cliente);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Cliente clienteVerificacao = entityManager.find(Cliente.class, cliente.getId());
+        Assert.assertNotNull(clienteVerificacao.getSexo());
+    }
 
     @Test
     public void impedirOperacaoComBancoDeDados() {
@@ -140,4 +159,41 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         Assert.assertNotNull(produtoVerificacao);
     }
 
+    @Test
+    public void salvarXmlNota() {
+        Pedido pedido = entityManager.find(Pedido.class, 1);
+
+        NotaFiscal notaFiscal = new NotaFiscal();
+        notaFiscal.setPedido(pedido);
+        notaFiscal.setDataEmissao(new Date());
+        notaFiscal.setXml("<xml>".getBytes());
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(notaFiscal);
+        entityManager.getTransaction().commit();
+
+        NotaFiscal notaFiscalVerificacao = entityManager.find(NotaFiscal.class, notaFiscal.getId());
+        Assert.assertNotNull(notaFiscalVerificacao.getXml());
+        Assert.assertTrue(notaFiscalVerificacao.getXml().length > 0);
+
+        /*
+        try {
+            OutputStream out = new FileOutputStream(
+                    Files.createFile(Paths.get(
+                            System.getProperty("user.home") + "/xml.xml")).toFile());
+            out.write(notaFiscalVerificacao.getXml());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        */
+    }
+
+//    private static byte[] carregarNotaFiscal() {
+//        try {
+//            return SalvandoArquivosTest.class.getResourceAsStream(
+//                    "/nota-fiscal.xml").readAllBytes();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

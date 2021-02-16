@@ -2,7 +2,6 @@ package com.curso.model;
 
 import com.curso.listener.GenericoListener;
 import com.curso.listener.GerarNotaFiscalListener;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,15 +12,9 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @EntityListeners({ GerarNotaFiscalListener.class, GenericoListener.class })
 @Entity
-public class Pedido {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Pedido extends EntidadeBaseInteger{
 
     private LocalDateTime dataPedido;
 
@@ -46,7 +39,7 @@ public class Pedido {
     private List<ItemPedido> itens;
 
     @OneToOne(mappedBy = "pedido")
-    private PagamentoCartao pagamentoCartao;
+    private Pagamento pagamento;
 
     @PrePersist
     public void aoPersistir() {

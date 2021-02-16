@@ -7,3 +7,5 @@ insert into Pedido (id, cliente_id, dataPedido, total, status) values (1, 1, sys
 insert into ItemPedido (id, pedido_id, produto_id, precoProduto, quantidade) values (1, 1, 1, 5.0, 2);
 
 insert into Categoria (id, nome) values (1, 'Eletrônicos');
+
+insert into pagamento (pedido_id, status, numero_cartao, tipo_pagamento) values (2, 'PROCESSANDO', '123', 'cartao');
