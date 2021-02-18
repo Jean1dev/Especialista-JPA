@@ -1,6 +1,7 @@
 package com.curso.model;
 
-import lombok.EqualsAndHashCode;
+import com.curso.listener.GenericoListener;
+import com.curso.listener.GerarNotaFiscalListener;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,14 +12,9 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EntityListeners({ GerarNotaFiscalListener.class, GenericoListener.class })
 @Entity
-public class Pedido {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Pedido extends EntidadeBaseInteger{
 
     private LocalDateTime dataPedido;
 
@@ -39,9 +35,48 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
 
     @OneToOne(mappedBy = "pedido")
-    private PagamentoCartao pagamentoCartao;
+    private Pagamento pagamento;
+
+    @PrePersist
+    public void aoPersistir() {
+        System.out.println("Antes de persisitr");
+    }
+
+    @PreUpdate
+    public void aoAtualizar() {
+        System.out.println("Antes de atualizar");
+    }
+
+    @PostPersist
+    public void aposPersistir() {
+        System.out.println("Após persistir Pedido.");
+    }
+
+    @PostUpdate
+    public void aposAtualizar() {
+        System.out.println("Após atualizar Pedido.");
+    }
+
+    @PreRemove
+    public void aoRemover() {
+        System.out.println("Antes de remover Pedido.");
+    }
+
+    @PostRemove
+    public void aposRemover() {
+        System.out.println("Após remover Pedido.");
+    }
+
+    @PostLoad
+    public void aoCarregar() {
+        System.out.println("Após carregar o Pedido.");
+    }
+
+    public boolean isPago() {
+        return StatusPedido.PAGO.equals(status);
+    }
 }

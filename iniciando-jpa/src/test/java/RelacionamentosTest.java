@@ -8,12 +8,13 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class RelacionamentosTest extends EntityManagerTest {
+
     @Test
     public void verificarRelacionamentoPedidoNotaFiscal() {
         Pedido pedido = entityManager.find(Pedido.class, 1);
 
         NotaFiscal notaFiscal = new NotaFiscal();
-        notaFiscal.setXml("TESTE");
+        notaFiscal.setXml("TESTE".getBytes());
         notaFiscal.setDataEmissao(new Date());
         notaFiscal.setPedido(pedido);
 
@@ -32,7 +33,7 @@ public class RelacionamentosTest extends EntityManagerTest {
         Pedido pedido = entityManager.find(Pedido.class, 1);
 
         PagamentoCartao pagamentoCartao = new PagamentoCartao();
-        pagamentoCartao.setNumero("1234");
+        pagamentoCartao.setNumeroCartao("1234");
         pagamentoCartao.setStatus(StatusPagamento.PROCESSANDO);
         pagamentoCartao.setPedido(pedido);
 
@@ -43,7 +44,7 @@ public class RelacionamentosTest extends EntityManagerTest {
         entityManager.clear();
 
         Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
-        Assert.assertNotNull(pedidoVerificacao.getPagamentoCartao());
+        Assert.assertNotNull(pedidoVerificacao.getPagamento());
     }
 
     @Test
