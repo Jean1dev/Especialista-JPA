@@ -1,4 +1,4 @@
-import com.curso.dto.ProdutoDto;
+import com.curso.dto.ProdutoDTO;
 import com.curso.model.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -107,8 +107,8 @@ public class JPQLTest extends EntityManagerTest {
     public void projetarNoDTO() {
         String jpql = "select new com.curso.dto.ProdutoDto(id, nome) from Produto";
 
-        TypedQuery<ProdutoDto> typedQuery = entityManager.createQuery(jpql, ProdutoDto.class);
-        List<ProdutoDto> lista = typedQuery.getResultList();
+        TypedQuery<ProdutoDTO> typedQuery = entityManager.createQuery(jpql, ProdutoDTO.class);
+        List<ProdutoDTO> lista = typedQuery.getResultList();
         Assert.assertFalse(lista.isEmpty());
 
         lista.forEach(p -> System.out.println(p.getId() + ", " + p.getNome()));

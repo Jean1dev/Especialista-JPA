@@ -1,15 +1,16 @@
 import com.curso.dto.ProdutoDTO;
-import com.curso.model.Categoria;
 import com.curso.model.Pagamento;
 import com.curso.model.Pedido;
 import com.curso.model.Produto;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.List;
 
