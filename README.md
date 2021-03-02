@@ -14,8 +14,8 @@ repositorio do curso de especialista JPA
 - [x] Criteria API
 - [x] Native Query
 - [x] Bean Validation, Pool de conexões, Entity Graph
-- [] Second Level Cache
+- [x] Second Level Cache
 - [x] Concorrencia e locking
-- [] Multitenancy
+- [x] Multitenancy
 - [] pg e EclipseLink
 - [] topicos finais
